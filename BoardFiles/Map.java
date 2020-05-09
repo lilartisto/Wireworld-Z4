@@ -1,7 +1,5 @@
 package BoardFiles;
 
-import java.util.Random;
-
 public class Map {
     public static final int EMPTY = 0;
     public static final int HEAD = 1;
@@ -48,7 +46,7 @@ public class Map {
     public void nextRound(){
         for( int i = 0; i < height; i++ )
             for( int j = 0; j < width; j++ ){
-                calculateStatus(i,j);
+                calculateStatus(j,i);
             }
             
         int tmp[][] = fields;
@@ -56,23 +54,21 @@ public class Map {
         tmpFields = tmp;
     }
 
-    public int countAdjacentHeads(int x, int y)
-    {
-        int counter = 0;
+    public int countAdjacentHeads(int x, int y){
 
+        int counter = 0;
         int moore = 1;
-            for (int i = -1; i <= moore; i++)
-                for (int j = -1; j <= moore; j++)
-                    try {
+
+        for (int i = -1; i <= moore; i++)
+            for (int j = -1; j <= moore; j++)
+                try {
                     if (fields[y + i][x + j] == HEAD)
                         counter++;
+                } catch (ArrayIndexOutOfBoundsException e){}
 
-            if (fields[y][x] ==  HEAD)
-                counter--;
-        } catch (ArrayIndexOutOfBoundsException e)
-        {
+        if (fields[y][x] ==  HEAD)
+            counter--;
 
-        }
         return counter;
     }
 

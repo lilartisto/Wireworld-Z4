@@ -1,29 +1,12 @@
-SPRINT 1 to do:
+SPRINT 2 to do:
 
-klasa Map{
-    + static int stankomorki = 0; //x4
-    - int fields[][];
-    - int tmpFields[][];
+Analizator pliku tekstowego
+    -wczytuje linijki z txt
+    -rozdziela na pojedyncze wyrazy
+    -wywoluje odpowiednia funkcje umieszczajaca na planszy bramke( z txt ) lub komorke
 
-    - int countnieghborhood( x, y );
-    - void calculateStatus( x, y );
-    + void nextTurn();
-
-    + get/set
-}
-
-klasa Frame{
-    - JButton buton;
-    - Panel panel;
-    - boolean canContinue;
-
-    + void actionPerformed();
-    + repaintPanel();
-    + boolean getCanContinue();
-}
-
-klasa Panel{
-    = void paintCopmonent();
-    + void mousePressed();
-    + void mouseDragged();
-}
+Zapis do pliku wyjsciowego
+    -zapisuje stan planszy do pliku
+    -pomija puste komorki
+    -pomija bramki( nie zapisuje XOR 0 1 DOWN, tylko same komorki pisze )
+    -(HEAD, TAIL, CONDUCTOR)
