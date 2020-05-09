@@ -61,9 +61,9 @@ public class Map {
         int counter = 0;
 
         int moore = 1;
-        try {
             for (int i = -1; i <= moore; i++)
                 for (int j = -1; j <= moore; j++)
+                    try {
                     if (fields[y + i][x + j] == HEAD)
                         counter++;
 
