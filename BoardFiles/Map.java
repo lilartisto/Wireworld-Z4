@@ -14,7 +14,7 @@ public class Map {
     private int fields[][];
     private int tmpFields[][];
 
-    public Map( int width, int height ){
+    public Map(int width, int height ){
         fields = new int[height][width];
         tmpFields = new int[height][width];
 
@@ -46,15 +46,47 @@ public class Map {
     }
 
     public void nextRound(){
-        Random random = new Random();
-
         for( int i = 0; i < height; i++ )
             for( int j = 0; j < width; j++ ){
-                tmpFields[i][j] = random.nextInt(4);
+                calculateStatus(i,j);
             }
             
         int tmp[][] = fields;
         fields = tmpFields;
         tmpFields = tmp;
+    }
+
+    public int countAdjacentHeads(int x, int y)
+    {
+        int counter = 0;
+
+        int moore = 1;
+        try {
+            for (int i = -1; i <= moore; i++)
+                for (int j = -1; j <= moore; j++)
+                    if (fields[y + i][x + j] == HEAD)
+                        counter++;
+
+            if (fields[y][x] ==  HEAD)
+                counter--;
+        } catch (ArrayIndexOutOfBoundsException e)
+        {
+
+        }
+        return counter;
+    }
+
+    public void calculateStatus(int x, int y)
+    {
+        if (fields[y][x] == EMPTY)
+            tmpFields[y][x] = EMPTY;
+        else if (fields[y][x] == HEAD)
+            tmpFields[y][x] = TAIL;
+        else if (fields[y][x] == TAIL)
+            tmpFields[y][x] = CONDUCTOR;
+        else if (countAdjacentHeads(x,y) == 1 || countAdjacentHeads(x,y) == 2)
+            tmpFields[y][x] = HEAD;
+        else
+            tmpFields[y][x] = CONDUCTOR;
     }
 }
