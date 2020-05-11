@@ -12,6 +12,9 @@ public class FileManager {
                 var fileWriter = new FileWriter(fileName);
                 var writer = new BufferedWriter(fileWriter);
         ) {
+            writer.write(map.width + " " + map.height);
+            writer.newLine();
+
             for (int i = 0; i < map.height; i++)
                 for (int j = 0; j < map.width; j++)
                 {
