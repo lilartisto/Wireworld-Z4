@@ -48,7 +48,7 @@ public class Map {
             for( int j = 0; j < width; j++ ){
                 calculateStatus(j,i);
             }
-            
+
         int tmp[][] = fields;
         fields = tmpFields;
         tmpFields = tmp;
