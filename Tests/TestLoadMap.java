@@ -1,26 +1,21 @@
+package Tests;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 
 import BoardFiles.*;
-import WireworldGUI.Window;
 
-public class Main {
+public class TestLoadMap {
     
-    public static void main( String args[] ){
+    public static void main(String args[]){
 
-        String dataPath = "Tests/testLoadMap.txt";
-        
         MapLoader loader = new MapLoader();
-        Map map;
 
         try{
-            map = loader.LoadMap( new File( dataPath ) );
+            loader.LoadMap( new File("Tests/testLoadMap.txt") );
         } catch( FileNotFoundException | NoSuchElementException e ){
             e.printStackTrace();
-            return;
         }
-        
-        new Window( map );
     }
 }
