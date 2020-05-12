@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import BoardFiles.Map;
+import BoardFiles.FileManager;
 
 public class Window extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
@@ -16,38 +17,62 @@ public class Window extends JFrame implements ActionListener {
     private JButton button;
     private Map map;
 
-    private boolean canContinue;
+    private String finalPath;
 
-    public Window( Map map ){
+    public Window( Map map, String finalPath ) {
         super("WIREWORLD");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        panel = new Panel( map );
-        button = new JButton( "NEXT ROUND" );
-        this.map = map;
+        panel = new Panel(map);
+        button = new JButton("START");
 
-        setLayout( new FlowLayout() );
+        this.map = map;
+        this.finalPath = finalPath;
+
+        setLayout(new FlowLayout());
 
         button.addActionListener(this);
+        button.setPreferredSize( new Dimension( 150, 100 ) );
+
         add(panel);
         add(button);
 
         pack();
 
-        canContinue = false;
         setResizable(false);
         setVisible(true);
     }
 
-    public boolean canContinue(){
-        return canContinue;
+    public void repaintPanel(){
+        panel.repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if( e.getSource() == button ){
-            map.nextRound();
+        if (e.getSource() == button ) {
+            if( map.isFinished() ){
+                FileManager.writeMapToFile(map, finalPath);
+                disableButton();
+            }
+            else {
+                swapButtonText();
+                map.changeIsRun();
+            }
         }
-        panel.repaint();
+    }
+
+    private void swapButtonText(){
+        if( button.getText().equals( "STOP" ) )
+            button.setText("START");
+        else
+            button.setText("STOP");
+    }
+
+    public void setButtonText( String text ){
+        button.setText( text );
+    }
+
+    public void disableButton(){
+        button.setEnabled(false);
     }
 }

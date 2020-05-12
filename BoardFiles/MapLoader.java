@@ -7,20 +7,35 @@ import java.util.Scanner;
 
 public class MapLoader {
 
-    public Map LoadMap(File file) throws FileNotFoundException, NoSuchElementException{
-        Scanner fileScanner = new Scanner( file );
+    public Map LoadMap(File file){
+        Scanner fileScanner;
+        try{
+            fileScanner = new Scanner( file );
+        } catch( FileNotFoundException e ){
+            System.err.println("Nie znaleziono pliku wejsciowego " + file.getPath() );
+            return null;
+        }
+        
         int x, y;
         Map map;
 
-        x = fileScanner.nextInt();
-        y = fileScanner.nextInt();
+        try{
+            x = fileScanner.nextInt();
+            y = fileScanner.nextInt();
+        } catch( NoSuchElementException e ){
+            System.err.println("Zly format pliku wejsciowego " + file.getPath() );
+            fileScanner.close();
+            return null;
+        }
 
         map = new Map( x, y );
 
-        fileScanner.nextLine(); // zeby pozbyc sie \n
+        try{
+            fileScanner.nextLine(); // zeby pozbyc sie \n
+        } catch( NoSuchElementException e ){}
 
         while( fileScanner.hasNextLine() ){
-            String line[] = fileScanner.nextLine().split("\s");
+            String line[] = fileScanner.nextLine().split(" ");
             try{
                 x = Integer.parseInt( line[1] );
                 y = Integer.parseInt( line[2] );

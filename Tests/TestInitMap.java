@@ -17,7 +17,7 @@ public class TestInitMap {
         map.swapHeadTail(3, 5);
         map.swapHeadTail(9, 4);
 
-        new Window( map );
+        new Window( map, null );
 
         System.out.println( map.getField(0, 0) == Map.CONDUCTOR ? "CONDUCTOR" : "FAIL" );
         System.out.println( map.getField(1, 1) == Map.CONDUCTOR ? "CONDUCTOR" : "FAIL" );

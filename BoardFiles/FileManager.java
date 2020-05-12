@@ -6,7 +6,7 @@ import java.io.IOException;
 
 
 public class FileManager {
-    public static void WriteMapToFile(Map map, String fileName)
+    public static void writeMapToFile(Map map, String fileName)
     {
         try (
                 var fileWriter = new FileWriter(fileName);

@@ -1,10 +1,9 @@
 package Tests;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
 
 import BoardFiles.*;
+import WireworldGUI.Window;
 
 public class TestLoadMap {
     
@@ -12,10 +11,10 @@ public class TestLoadMap {
 
         MapLoader loader = new MapLoader();
 
+        Map map = loader.LoadMap( new File("Tests/testLoadMap.txt") );
+        
         try{
-            loader.LoadMap( new File("Tests/testLoadMap.txt") );
-        } catch( FileNotFoundException | NoSuchElementException e ){
-            e.printStackTrace();
-        }
+            new Window( map, null );
+        }catch( NullPointerException e ){}
     }
 }

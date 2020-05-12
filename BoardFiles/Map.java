@@ -1,6 +1,6 @@
 package BoardFiles;
 
-public class Map {
+public class Map{
     public static final int EMPTY = 0;
     public static final int HEAD = 1;
     public static final int TAIL = 2;
@@ -12,41 +12,63 @@ public class Map {
     private int fields[][];
     private int tmpFields[][];
 
-    public Map(int width, int height ){
+    private boolean isRun;
+    private boolean isFinished;
+
+    public Map(int width, int height) {
         fields = new int[height][width];
         tmpFields = new int[height][width];
 
         this.height = height;
         this.width = width;
+        isRun = false;
     }
 
-    public int getField( int x, int y ){
-        try{
+    public int getField(int x, int y) {
+        try {
             return fields[y][x];
-        } catch( ArrayIndexOutOfBoundsException e ){
+        } catch (ArrayIndexOutOfBoundsException e) {
             return EMPTY;
         }
     }
 
-    public void setState( int x, int y, int state ){
-        try{
+    public void setState(int x, int y, int state) {
+        try {
             fields[y][x] = state;
-        } catch( ArrayIndexOutOfBoundsException e ){}
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
     }
 
-    public void swapHeadTail( int x, int y ){
-        try{
-            if( fields[y][x] == HEAD )
+    public void changeIsRun(){
+        isRun = !isRun;
+    }
+
+    public boolean isRun(){
+        return isRun;
+    }
+
+    public void setIsFinished( boolean isFinished ){
+        this.isFinished = isFinished;
+    }
+
+    public boolean isFinished(){
+        return isFinished;
+    }
+
+    public void swapHeadTail(int x, int y) {
+        try {
+            if (fields[y][x] == HEAD)
                 fields[y][x] = TAIL;
             else
                 fields[y][x] = HEAD;
-        } catch( ArrayIndexOutOfBoundsException e ){}
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
     }
 
-    public void nextRound(){
-        for( int i = 0; i < height; i++ )
-            for( int j = 0; j < width; j++ ){
-                calculateStatus(j,i);
+    public void nextRound() {
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++) {
+                calculateStatus(j, i);
             }
 
         int tmp[][] = fields;
@@ -54,7 +76,7 @@ public class Map {
         tmpFields = tmp;
     }
 
-    public int countAdjacentHeads(int x, int y){
+    public int countAdjacentHeads(int x, int y) {
 
         int counter = 0;
         int moore = 1;
@@ -64,23 +86,23 @@ public class Map {
                 try {
                     if (fields[y + i][x + j] == HEAD)
                         counter++;
-                } catch (ArrayIndexOutOfBoundsException e){}
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
 
-        if (fields[y][x] ==  HEAD)
+        if (fields[y][x] == HEAD)
             counter--;
 
         return counter;
     }
 
-    public void calculateStatus(int x, int y)
-    {
+    public void calculateStatus(int x, int y) {
         if (fields[y][x] == EMPTY)
             tmpFields[y][x] = EMPTY;
         else if (fields[y][x] == HEAD)
             tmpFields[y][x] = TAIL;
         else if (fields[y][x] == TAIL)
             tmpFields[y][x] = CONDUCTOR;
-        else if (countAdjacentHeads(x,y) == 1 || countAdjacentHeads(x,y) == 2)
+        else if (countAdjacentHeads(x, y) == 1 || countAdjacentHeads(x, y) == 2)
             tmpFields[y][x] = HEAD;
         else
             tmpFields[y][x] = CONDUCTOR;
