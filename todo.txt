@@ -1,12 +1,4 @@
-SPRINT 2 to do:
-
-Analizator pliku tekstowego
-    -wczytuje linijki z txt
-    -rozdziela na pojedyncze wyrazy
-    -wywoluje odpowiednia funkcje umieszczajaca na planszy bramke( z txt ) lub komorke
-
-Zapis do pliku wyjsciowego
-    -zapisuje stan planszy do pliku
-    -pomija puste komorki
-    -pomija bramki( nie zapisuje XOR 0 1 DOWN, tylko same komorki pisze )
-    -(HEAD, TAIL, CONDUCTOR)
+to do:
+-automatyczne dopasowanie rozmiarów frame i rozmiaru komórek do rozmiaru monitora
+-poprawienie rysowania zgodnie ze specyfikacja + numer generacji
+-wrzucenie czytania z i pisania do pliku do jednej klasy
