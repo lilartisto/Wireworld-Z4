@@ -2,8 +2,12 @@ package BoardFiles;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import WireworldGUI.Panel;
+import java.awt.Dimension;
 
 public class MapLoader {
 
@@ -28,7 +32,8 @@ public class MapLoader {
             return null;
         }
 
-        map = new Map( x, y );
+        Dimension mapSize = Panel.calculateBestFieldSize( x, y );
+        map = new Map( (int)mapSize.getWidth(), (int)mapSize.getHeight() );
 
         try{
             fileScanner.nextLine(); // zeby pozbyc sie \n

@@ -19,8 +19,8 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
     private int lastButton;
 
     private Map map;
-    private final int fieldSize = 20;
-    private final int d = 5; //space
+    private static int fieldSize = 20; // < 5; 50 >
+    private static final int d = 5; //space
     
     public Panel( Map map ){
         setPreferredSize( new Dimension( map.width*fieldSize+2*d, map.height*fieldSize+2*d ) );
@@ -35,9 +35,6 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         int x = (e.getX()-d)/fieldSize;
         int y = (e.getY()-d)/fieldSize;
 
-        //if( x >= map.width || x < 0 || y >= map.height || y < 0 )
-            //return;
-
         if( lastButton == M_LEFT )
             map.setState(x, y, Map.CONDUCTOR);
         else if( lastButton == M_RIGHT )
@@ -51,9 +48,6 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         lastButton = e.getButton();
         int x = (e.getX()-d)/fieldSize;
         int y = (e.getY()-d)/fieldSize;
-
-        //if( x >= map.width || x < 0 || y >= map.height || y < 0 )
-            //return;
 
         if( lastButton == M_LEFT )
             map.setState(x, y, Map.CONDUCTOR);
@@ -70,6 +64,8 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
 
+        System.out.println("fieldSize = " + fieldSize + " map.h = " + map.height + " map.w = " + map.width );
+
         g2d.drawRect(d-1, d-1, map.width*fieldSize+1, map.height*fieldSize+1 );
 
         for( int i = 0; i < map.height; i++ )
@@ -80,8 +76,6 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
                     drawHead(j*fieldSize+d, i*fieldSize+d, g2d);
                 else if( map.getField(j, i) == Map.TAIL )
                     drawTail(j*fieldSize+d, i*fieldSize+d, g2d);
-
-                //g2d.drawRect(j*fieldSize+d, i*fieldSize+d, fieldSize, fieldSize);
             }
     }
 
@@ -113,5 +107,37 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
  	public void mouseExited(MouseEvent e) {}
  
  	@Override
- 	public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+     
+    public static Dimension calculateBestFieldSize( int x, int y ){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int minSize = 5;
+        int maxSize = 50;
+
+        int screenWidth = (int)screenSize.getWidth()-2*d-200;
+        int screenHeight = (int)screenSize.getHeight()-2*d-100;
+
+        int w = screenWidth/x;
+        int h = screenHeight/y;
+        
+        if( w < minSize ){
+            x = screenWidth/minSize;
+            w = minSize;
+        }
+        else if( x > maxSize ){
+            w = maxSize;
+        }
+
+        if( h < minSize ){
+            y = screenHeight/minSize;
+            h = minSize;
+        }
+        else if( h > maxSize ){
+            h = maxSize;
+        }
+        
+        fieldSize = w > h ? h: w;
+        
+        return new Dimension(x, y);
+    }
 }

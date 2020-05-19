@@ -15,7 +15,7 @@ public class Map{
     private boolean isRun;
     private boolean isFinished;
 
-    public Map(int width, int height) {
+    public Map( int width, int height ) {
         fields = new int[height][width];
         tmpFields = new int[height][width];
 

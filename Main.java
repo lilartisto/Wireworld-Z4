@@ -9,16 +9,16 @@ public class Main {
     public static void main(String args[]) {
 
         int n;
-        int delay = 500;
+        int delay = 350;
 
         MapLoader loader = new MapLoader();
         Map map = null;
         Window window;
 
         try{
-            n = args.length > 0 ? Integer.parseInt(args[0]) : 25;
+            n = args.length > 0 ? Integer.parseInt( "+"+args[0] ) : 25;
         }catch( NumberFormatException e ){
-            System.err.println("Podano bledne dane wejsciowe: " + args[0] + ". Podaj liczbe calkowita");
+            System.err.println("Podano bledne dane wejsciowe: " + args[0] + ". Oczekiwano dodatniej liczby calkowitej");
             n = 25;
         }
 
@@ -38,9 +38,7 @@ public class Main {
             if (!map.isRun()) {
                 try {
                     Thread.sleep(10);
-                    continue;
-                } catch (InterruptedException e) {
-                }
+                } catch (InterruptedException e) {}
                 continue;
             }
 

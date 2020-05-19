@@ -1,4 +1,3 @@
 to do:
 -automatyczne dopasowanie rozmiarów frame i rozmiaru komórek do rozmiaru monitora
--poprawienie rysowania zgodnie ze specyfikacja + numer generacji
 -wrzucenie czytania z i pisania do pliku do jednej klasy
