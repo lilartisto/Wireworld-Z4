@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import WireworldGUI.Panel;
 import java.awt.Dimension;
+import java.awt.Point;
 
 public class MapLoader {
 
@@ -81,14 +82,25 @@ public class MapLoader {
             return;
         }
 
+        Point startPoint = calculateStartPoint(gate);
+
         if( direction.equals("UP") )
-            loadGateUp(map, x, y, gate);
+            loadGateUp(map, x-startPoint.y, y-startPoint.x, gate);
         else if( direction.equals("DOWN") )
-            loadGateDown(map, x, y, gate);
+            loadGateDown(map, x-startPoint.y, y-startPoint.x, gate);
         else if( direction.equals("LEFT") )
-            loadGateLeft(map, x, y, gate);
+            loadGateLeft(map, x-startPoint.x, y-startPoint.y, gate);
         else if( direction.equals("RIGHT") )
-            loadGateRight(map, x, y, gate);
+            loadGateRight(map, x-startPoint.x, y-startPoint.y, gate);
+    }
+
+    private Point calculateStartPoint( int gate[][] ){
+        int i,j;
+        for( i = 0; i < gate[0].length; i++ )
+            for( j = 0; j < gate.length; j++ )
+                if( gate[j][i] == 1 )
+                    return new Point( i, j );
+        return new Point( 0, 0 );
     }
 
     private void loadGateUp( Map map, int x, int y, int gate[][] ){

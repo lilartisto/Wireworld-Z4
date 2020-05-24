@@ -64,8 +64,6 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
 
-        System.out.println("fieldSize = " + fieldSize + " map.h = " + map.height + " map.w = " + map.width );
-
         g2d.drawRect(d-1, d-1, map.width*fieldSize+1, map.height*fieldSize+1 );
 
         for( int i = 0; i < map.height; i++ )
