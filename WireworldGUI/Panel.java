@@ -26,10 +26,11 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
     private static final int d = 5; //space
     
     public Panel( Map map, Window window ){
+        super();
         setPreferredSize( new Dimension( map.width*fieldSize+2*d, map.height*fieldSize+2*d ) );
         addMouseListener(this);
         addMouseMotionListener(this);
-
+        
         this.window = window;
         this.map = map;
     }
@@ -126,11 +127,11 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
      
     public static Dimension calculateBestFieldSize( int x, int y ){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int minSize = 5;
+        int minSize = 3;
         int maxSize = 50;
 
-        int screenWidth = (int)screenSize.getWidth()-2*d-200;
-        int screenHeight = (int)screenSize.getHeight()-2*d-100;
+        int screenWidth = (int)screenSize.getWidth()-4*d;
+        int screenHeight = (int)screenSize.getHeight()-130-4*d;
 
         int w = screenWidth/x;
         int h = screenHeight/y;

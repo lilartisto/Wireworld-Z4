@@ -25,19 +25,21 @@ public class Main {
             map = MapLoader.LoadMap(new File(args[1]));
 
         if( map == null )
-            map = new Map(20, 20);
+            map = new Map(35, 25);
 
         if( args.length > 2 )
-            window = new Window( map, args[2] );
+            window = new Window( map, args[2], n );
         else
-            window = new Window( map, null );
+            window = new Window( map, null, n );
 
 
-        for (int i = 0; i < n;) {
+        while( window.getN() > 0 ) {
             if (!map.isRun()) {
                 try {
                     Thread.sleep(10);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 continue;
             }
 
@@ -45,11 +47,11 @@ public class Main {
             window.repaintPanel();
 
             try {
-                TimeUnit.MILLISECONDS.sleep(delay);
+                TimeUnit.MILLISECONDS.sleep( window.getDelay() );
             } catch (InterruptedException e) {}
-
-            i++;
+            window.decrementN();
         }
+
         map.setIsFinished( true );
 
         if( args.length > 2 )
