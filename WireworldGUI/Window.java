@@ -1,6 +1,9 @@
 package WireworldGUI;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.JButton;
 
 import java.awt.*;
@@ -14,8 +17,12 @@ public class Window extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private Panel panel;
-    private JButton button;
     private Map map;
+
+    private JPanel pageStartPanel;
+    private JButton button;
+    private JToggleButton gateButton;
+    private JTextField textField;
 
     private String finalPath;
 
@@ -23,19 +30,24 @@ public class Window extends JFrame implements ActionListener {
         super("WIREWORLD");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        panel = new Panel(map);
-        button = new JButton("START");
-
+        panel = new Panel(map, this);
         this.map = map;
         this.finalPath = finalPath;
 
-        setLayout(new FlowLayout());
+        pageStartPanel = new JPanel( new FlowLayout() );
+        button = new JButton("START");
+        textField = new JTextField("Type gate's name");
+        gateButton = new JToggleButton("Draw gate");
 
         button.addActionListener(this);
-        button.setPreferredSize( new Dimension( 150, 100 ) );
+        pageStartPanel.add(textField);
+        pageStartPanel.add(gateButton);
+        pageStartPanel.add(button);
 
-        add(panel);
-        add(button);
+        setLayout( new BorderLayout( 5, 5 ) );
+
+        add(panel, BorderLayout.CENTER );
+        add(pageStartPanel, BorderLayout.PAGE_START );
 
         pack();
 
@@ -74,5 +86,13 @@ public class Window extends JFrame implements ActionListener {
 
     public void disableButton(){
         button.setEnabled(false);
+    }
+
+    public boolean isGateButtonClicked(){
+        return gateButton.isSelected();
+    }
+
+    public String getTextFieldString(){
+        return textField.getText();
     }
 }

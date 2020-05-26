@@ -12,7 +12,7 @@ import java.awt.Point;
 
 public class MapLoader {
 
-    public Map LoadMap(File file){
+    public static Map LoadMap(File file){
         Scanner fileScanner;
         try{
             fileScanner = new Scanner( file );
@@ -60,7 +60,7 @@ public class MapLoader {
         return map;
     }
 
-    private void loadGate( Map map, String type, int x, int y, String direction ){
+    public static void loadGate( Map map, String type, int x, int y, String direction ){
         int gate[][];
         try {
             Scanner scanner = new Scanner(new File("BoardFiles/Gates/" + type + ".txt"));
@@ -92,18 +92,19 @@ public class MapLoader {
             loadGateLeft(map, x-startPoint.x, y-startPoint.y, gate);
         else if( direction.equals("RIGHT") )
             loadGateRight(map, x-startPoint.x, y-startPoint.y, gate);
+        else
+            System.err.println("Bledny kierunek bramki");
     }
 
-    private Point calculateStartPoint( int gate[][] ){
-        int i,j;
-        for( i = 0; i < gate[0].length; i++ )
-            for( j = 0; j < gate.length; j++ )
+    private static Point calculateStartPoint( int gate[][] ){
+        for( int i = 0; i < gate[0].length; i++ )
+            for( int j = 0; j < gate.length; j++ )
                 if( gate[j][i] == 1 )
                     return new Point( i, j );
         return new Point( 0, 0 );
     }
 
-    private void loadGateUp( Map map, int x, int y, int gate[][] ){
+    private static void loadGateUp( Map map, int x, int y, int gate[][] ){
         int width = gate[0].length;
         int height = gate.length;
 
@@ -114,7 +115,7 @@ public class MapLoader {
         }
     }
 
-    private void loadGateDown( Map map, int x, int y, int gate[][] ){
+    private static void loadGateDown( Map map, int x, int y, int gate[][] ){
         int width = gate[0].length;
         int height = gate.length;
 
@@ -126,7 +127,7 @@ public class MapLoader {
 
     }
 
-    private void loadGateLeft( Map map, int x, int y, int gate[][] ){
+    private static void loadGateLeft( Map map, int x, int y, int gate[][] ){
         int width = gate[0].length;
         int height = gate.length;
 
@@ -136,14 +137,14 @@ public class MapLoader {
                     map.setState(x+(width-1-j), y+(height-1-i), Map.CONDUCTOR);
     }
 
-    private void loadGateRight( Map map, int x, int y, int gate[][] ){
+    private static void loadGateRight( Map map, int x, int y, int gate[][] ){
         for( int i = 0; i < gate.length; i++ )
             for( int j = 0; j < gate[0].length; j++ )
                 if( gate[i][j] == 1 )
                     map.setState(x+j, y+i, Map.CONDUCTOR);
     }
 
-    private void loadCell( Map map, String type, int x, int y ){
+    private static void loadCell( Map map, String type, int x, int y ){
         if( type.equals("CONDUCTOR") )
             map.setState(x, y, Map.CONDUCTOR );
         else if( type.equals("HEAD") )

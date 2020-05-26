@@ -3,11 +3,13 @@ package WireworldGUI;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.regex.PatternSyntaxException;
 import java.awt.*;
 
 import javax.swing.JPanel;
 
 import BoardFiles.Map;
+import BoardFiles.MapLoader;
 
 public class Panel extends JPanel implements MouseMotionListener, MouseListener{
     private static final long serialVersionUID = 1L;
@@ -17,16 +19,18 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
     private final int M_RIGHT = 3;
 
     private int lastButton;
+    private Window window;
 
     private Map map;
     private static int fieldSize = 20; // < 5; 50 >
     private static final int d = 5; //space
     
-    public Panel( Map map ){
+    public Panel( Map map, Window window ){
         setPreferredSize( new Dimension( map.width*fieldSize+2*d, map.height*fieldSize+2*d ) );
         addMouseListener(this);
         addMouseMotionListener(this);
 
+        this.window = window;
         this.map = map;
     }
 
@@ -35,7 +39,7 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         int x = (e.getX()-d)/fieldSize;
         int y = (e.getY()-d)/fieldSize;
 
-        if( lastButton == M_LEFT )
+        if( lastButton == M_LEFT && !window.isGateButtonClicked() )
             map.setState(x, y, Map.CONDUCTOR);
         else if( lastButton == M_RIGHT )
             map.setState(x, y, Map.EMPTY);
@@ -49,8 +53,21 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         int x = (e.getX()-d)/fieldSize;
         int y = (e.getY()-d)/fieldSize;
 
-        if( lastButton == M_LEFT )
-            map.setState(x, y, Map.CONDUCTOR);
+        if( lastButton == M_LEFT ){
+            if( window.isGateButtonClicked() ){
+                try{
+                    String tmp[] = window.getTextFieldString().split(" ");
+                    MapLoader.loadGate(map, tmp[0], x, y, tmp[1]);
+                } catch( PatternSyntaxException t ){
+
+                } catch( ArrayIndexOutOfBoundsException t ){
+                    System.err.println("Zly format bramki w polu tekstowym");
+                }
+            }
+            else{
+                map.setState(x, y, Map.CONDUCTOR);
+            }
+        }
         else if( lastButton == M_RIGHT )
             map.setState(x, y, Map.EMPTY);
         else if( lastButton == M_MID )

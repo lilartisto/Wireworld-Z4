@@ -9,21 +9,20 @@ public class Main {
     public static void main(String args[]) {
 
         int n;
-        int delay = 350;
+        int delay = 100;
 
-        MapLoader loader = new MapLoader();
         Map map = null;
         Window window;
 
         try{
-            n = args.length > 0 ? Integer.parseInt( "+"+args[0] ) : 25;
+            n = args.length > 0 ? Integer.parseInt( "+"+args[0] ) : 100;
         }catch( NumberFormatException e ){
             System.err.println("Podano bledne dane wejsciowe: " + args[0] + ". Oczekiwano dodatniej liczby calkowitej");
-            n = 25;
+            n = 100;
         }
 
         if( args.length > 1 )
-            map = loader.LoadMap(new File(args[1]));
+            map = MapLoader.LoadMap(new File(args[1]));
 
         if( map == null )
             map = new Map(20, 20);
