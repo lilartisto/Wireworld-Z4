@@ -2,11 +2,13 @@ package WireworldGUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
 import java.awt.*;
@@ -23,11 +25,15 @@ public class Window extends JFrame implements ActionListener {
     private Map map;
 
     private JPanel pageStartPanel;
+    private JPanel pageEndPanel;
+
     private JButton button;
     private JToggleButton gateButton;
+    private JToggleButton infiButton;
     private JTextField textField;
     private JSpinner spinner;
     private JSlider slider;
+    private ButtonGroup radioButtons;
 
     private String finalPath;
     private int n;
@@ -42,11 +48,13 @@ public class Window extends JFrame implements ActionListener {
         this.n = n;
 
         createPageStartPanel();
+        createPageEndPanel();
 
         setLayout( new BorderLayout( 0, 0 ) );
 
         add(panel, BorderLayout.CENTER );
         add(pageStartPanel, BorderLayout.PAGE_START );
+        add(pageEndPanel, BorderLayout.PAGE_END );
 
         pack();
 
@@ -55,33 +63,61 @@ public class Window extends JFrame implements ActionListener {
     }
 
     private void createPageStartPanel(){
-
         pageStartPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 10, 10 ) );
-        pageStartPanel.setBackground( new Color( 80, 80, 140 ) );
+
+        Dimension d = new Dimension( 100, 30 );
 
         button = new JButton("START");
             button.addActionListener(this);
-            button.setPreferredSize( new Dimension( 100, 40 ) );
-
-        textField = new JTextField("Gate Orienation");
-            textField.setPreferredSize( new Dimension( 100, 40 ) );
-
-        gateButton = new JToggleButton("Draw gate");
-            gateButton.setPreferredSize( new Dimension( 100, 40 ) );
+            button.setPreferredSize( d );
 
         spinner = new JSpinner( new SpinnerNumberModel(n, 0, 1e6, 1) );
-            spinner.setPreferredSize( new Dimension( 100, 40 ) );
+            spinner.setPreferredSize( d );
+
+        infiButton = new JToggleButton("Infinity");
+            infiButton.setPreferredSize( d );
+
+        textField = new JTextField("Gate Direction");
+            textField.setPreferredSize( d );
+
+        gateButton = new JToggleButton("Gate");
+            gateButton.setPreferredSize( d );
+
+        pageStartPanel.add(spinner);
+        pageStartPanel.add(infiButton);
+        pageStartPanel.add(textField);
+        pageStartPanel.add(gateButton);
+        pageStartPanel.add(button);
+    }
+
+    private void createPageEndPanel(){
+        pageEndPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 10, 10 ) );
 
         slider = new JSlider( JSlider.HORIZONTAL, 0, 250, 100 );
             slider.setMajorTickSpacing( 50 );
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
 
-        pageStartPanel.add(slider);
-        pageStartPanel.add(spinner);
-        pageStartPanel.add(textField);
-        pageStartPanel.add(gateButton);
-        pageStartPanel.add(button);
+        createRadioButtons();
+        pageEndPanel.add(slider);
+    }
+
+    private void createRadioButtons(){
+        radioButtons = new ButtonGroup();
+        JPanel radioPanel = new JPanel( new GridLayout(2, 1) );
+
+        JRadioButton radioButton = new JRadioButton("Wireworld");
+            radioButton.setSelected(true);
+            radioButton.addActionListener(this);
+            radioButtons.add( radioButton );
+            radioPanel.add( radioButton );
+
+        radioButton = new JRadioButton("Game Of Life");
+            radioButton.addActionListener(this);
+            radioButtons.add( radioButton );
+            radioPanel.add( radioButton );
+
+        pageEndPanel.add( radioPanel );
     }
 
     public void repaintPanel(){
@@ -99,6 +135,9 @@ public class Window extends JFrame implements ActionListener {
                 swapButtonText();
                 map.changeIsRun();
             }
+        }
+        else{
+            map.setAutomatonName( e.getActionCommand() );
         }
     }
 
@@ -130,6 +169,10 @@ public class Window extends JFrame implements ActionListener {
         double x = Double.parseDouble(tmp);
         n = (int)x;
         return n;
+    }
+
+    public boolean isInfinity(){
+        return infiButton.isSelected();
     }
 
     public int getDelay(){

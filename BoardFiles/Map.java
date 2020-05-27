@@ -15,6 +15,8 @@ public class Map{
     private boolean isRun;
     private boolean isFinished;
 
+    private String automatonName;
+
     public Map( int width, int height ) {
         fields = new int[height][width];
         tmpFields = new int[height][width];
@@ -22,6 +24,7 @@ public class Map{
         this.height = height;
         this.width = width;
         isRun = false;
+        automatonName = "Wireworld";
     }
 
     public int getField(int x, int y) {
@@ -55,6 +58,10 @@ public class Map{
         return isFinished;
     }
 
+    public void setAutomatonName( String name ){
+        automatonName = name;
+    }
+
     public void swapHeadTail(int x, int y) {
         try {
             if (fields[y][x] == HEAD)
@@ -68,7 +75,10 @@ public class Map{
     public void nextRound() {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
-                calculateStatus(j, i);
+                if( automatonName.equals("Wireworld") )
+                    calculateWireworldStatus(j, i);
+                else if( automatonName.equals("Game Of Life") )
+                    calculateGameOfLifeStatus(j, i);
             }
 
         int tmp[][] = fields;
@@ -76,7 +86,7 @@ public class Map{
         tmpFields = tmp;
     }
 
-    public int countAdjacentHeads(int x, int y) {
+    private int countNeighbor(int x, int y, int state) {
 
         int counter = 0;
         int moore = 1;
@@ -84,27 +94,37 @@ public class Map{
         for (int i = -1; i <= moore; i++)
             for (int j = -1; j <= moore; j++)
                 try {
-                    if (fields[y + i][x + j] == HEAD)
+                    if (fields[y + i][x + j] == state)
                         counter++;
                 } catch (ArrayIndexOutOfBoundsException e) {
                 }
 
-        if (fields[y][x] == HEAD)
+        if (fields[y][x] == state)
             counter--;
 
         return counter;
     }
 
-    public void calculateStatus(int x, int y) {
+    private void calculateWireworldStatus(int x, int y) {
         if (fields[y][x] == EMPTY)
             tmpFields[y][x] = EMPTY;
         else if (fields[y][x] == HEAD)
             tmpFields[y][x] = TAIL;
         else if (fields[y][x] == TAIL)
             tmpFields[y][x] = CONDUCTOR;
-        else if (countAdjacentHeads(x, y) == 1 || countAdjacentHeads(x, y) == 2)
+        else if (countNeighbor(x, y, HEAD) == 1 || countNeighbor(x, y, HEAD) == 2)
             tmpFields[y][x] = HEAD;
         else
             tmpFields[y][x] = CONDUCTOR;
+    }
+
+    private void calculateGameOfLifeStatus( int x, int y ){
+        int neigh = countNeighbor( x, y, CONDUCTOR );
+        if( neigh == 3 )
+            tmpFields[y][x] = CONDUCTOR;
+        else if( neigh == 2 && fields[y][x] == CONDUCTOR )
+            tmpFields[y][x] = CONDUCTOR;
+        else
+            tmpFields[y][x] = EMPTY;
     }
 }

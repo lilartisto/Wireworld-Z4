@@ -131,7 +131,7 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
         int maxSize = 50;
 
         int screenWidth = (int)screenSize.getWidth()-4*d;
-        int screenHeight = (int)screenSize.getHeight()-130-4*d;
+        int screenHeight = (int)screenSize.getHeight()-180-4*d;
 
         int w = screenWidth/x;
         int h = screenHeight/y;

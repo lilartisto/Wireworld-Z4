@@ -9,7 +9,6 @@ public class Main {
     public static void main(String args[]) {
 
         int n;
-        int delay = 100;
 
         Map map = null;
         Window window;
@@ -49,7 +48,8 @@ public class Main {
             try {
                 TimeUnit.MILLISECONDS.sleep( window.getDelay() );
             } catch (InterruptedException e) {}
-            window.decrementN();
+            if( !window.isInfinity() )
+                window.decrementN();
         }
 
         map.setIsFinished( true );
