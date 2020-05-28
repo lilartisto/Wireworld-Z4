@@ -9,7 +9,7 @@ public class TestLoadMap {
     
     public static void main(String args[]){
 
-        MapLoader loader = new MapLoader();
+        FileManager loader = new FileManager();
 
         Map map = loader.LoadMap( new File("Tests/testLoadMap.txt") );
         

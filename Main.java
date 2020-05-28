@@ -21,7 +21,7 @@ public class Main {
         }
 
         if( args.length > 1 )
-            map = MapLoader.LoadMap(new File(args[1]));
+            map = FileManager.LoadMap(new File(args[1]));
 
         if( map == null )
             map = new Map(35, 25);
