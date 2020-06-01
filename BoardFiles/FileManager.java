@@ -101,25 +101,29 @@ public class FileManager {
 
     public static void loadGate( Map map, String type, int x, int y, String direction ){
         int gate[][];
+        Scanner scanner;
         try {
-            Scanner scanner = new Scanner(new File("BoardFiles/Gates/" + type + ".txt"));
-
-            int width = scanner.nextInt();
-            int height = scanner.nextInt();
-
-            gate = new int[height][width];
-
-            for( int i = 0; i < height; i++ )
-                for( int j = 0; j < width; j++ )
-                    gate[i][j] = scanner.nextInt();
-
-        } catch(FileNotFoundException e) {
-            System.err.println("Nie znaleziono pliku z bramka " + type );
-            return;
+            scanner = new Scanner(new File("BoardFiles/Gates/" + type + ".txt"));
+        }catch (FileNotFoundException e) {
+            try{
+                scanner = new Scanner(new File("src/BoardFiles/Gates/" + type + ".txt"));
+            }catch (FileNotFoundException er) {
+                System.err.println("Nie znaleziono pliku z bramka " + type );
+                return;
+            }
         } catch( NumberFormatException e ){
             System.err.println("Bledny format pliku z bramka " + type );
             return;
         }
+
+        int width = scanner.nextInt();
+        int height = scanner.nextInt();
+
+        gate = new int[height][width];
+
+        for( int i = 0; i < height; i++ )
+            for( int j = 0; j < width; j++ )
+                gate[i][j] = scanner.nextInt();
 
         Point startPoint = calculateStartPoint(gate);
 

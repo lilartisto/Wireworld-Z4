@@ -9,7 +9,7 @@ import java.awt.*;
 import javax.swing.JPanel;
 
 import BoardFiles.Map;
-import BoardFiles.MapLoader;
+import BoardFiles.FileManager;
 
 public class Panel extends JPanel implements MouseMotionListener, MouseListener{
     private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class Panel extends JPanel implements MouseMotionListener, MouseListener{
             if( window.isGateButtonClicked() ){
                 try{
                     String tmp[] = window.getTextFieldString().split(" ");
-                    MapLoader.loadGate(map, tmp[0], x, y, tmp[1]);
+                    FileManager.loadGate(map, tmp[0], x, y, tmp[1]);
                 } catch( PatternSyntaxException t ){
 
                 } catch( ArrayIndexOutOfBoundsException t ){
