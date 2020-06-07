@@ -111,19 +111,28 @@ public class FileManager {
                 System.err.println("Nie znaleziono pliku z bramka " + type );
                 return;
             }
-        } catch( NumberFormatException e ){
-            System.err.println("Bledny format pliku z bramka " + type );
-            return;
         }
 
-        int width = scanner.nextInt();
-        int height = scanner.nextInt();
+        int width;
+        int height;
+        try{
+            width = scanner.nextInt();
+            height = scanner.nextInt();
+        } catch( NoSuchElementException e ){
+            System.err.println("Bledny format pliku z bramka " + type);
+            return;
+        }
 
         gate = new int[height][width];
 
         for( int i = 0; i < height; i++ )
             for( int j = 0; j < width; j++ )
-                gate[i][j] = scanner.nextInt();
+                try{
+                    gate[i][j] = scanner.nextInt();
+                } catch( NoSuchElementException e ){
+                    System.err.println("Bledny format pliku z bramka " + type);
+                    return;
+                }
 
         Point startPoint = calculateStartPoint(gate);
 
